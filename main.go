@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -23,14 +24,19 @@ func createSessionDirectory(sessionID string) error {
 }
 
 func main() {
+	inputFilePathPtr := flag.String("i", "filePath", "a string")
+	segmentPtr := flag.String("s", "segment", "a string")
+
 	userSessionId := generateUserSessionID()
 
 	if err := createSessionDirectory(userSessionId); err != nil {
 		panic(err)
 	}
 
-	inputFile := "input.mp4"
-	segment := "10"
+	flag.Parse()
+
+	inputFile := *inputFilePathPtr
+	segment := *segmentPtr
 	outputDirPath := "./dist/" + userSessionId + "/output%03d.mp4"
 
 	command := exec.Command("ffmpeg", "-i", inputFile, "-f", "segment", "-segment_time", segment, "-c", "copy", outputDirPath)
