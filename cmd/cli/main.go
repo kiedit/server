@@ -1,10 +1,9 @@
 package main
 
 import (
-	"bytes"
 	"log"
-	"os/exec"
 
+	media "kiedit/media"
 	user "kiedit/user"
 	utils "kiedit/utils"
 )
@@ -14,12 +13,15 @@ func main() {
 	currentUser.Init()
 
 	flagsConfig := new(utils.FlagsConfig)
-	flagsConfig.Init(currentUser.SessionDir)
+	flagsConfig.Init()
 
-	command := exec.Command("ffmpeg", "-i", flagsConfig.InputFile, "-f", "segment", "-segment_time", flagsConfig.Segment, "-c", "copy", flagsConfig.OutputDirPath)
-	var stderr bytes.Buffer
-	command.Stderr = &stderr
-	if err := command.Run(); err != nil {
+	var splitVideoInput = media.SplitVideoInput{
+		InputFile:     flagsConfig.InputFile,
+		Segment:       flagsConfig.Segment,
+		OutputDirPath: currentUser.SessionDir + "/output%03d.mp4",
+	}
+
+	if err := media.SplitVideo(&splitVideoInput); err != nil {
 		log.Fatal(err)
 	}
 }
