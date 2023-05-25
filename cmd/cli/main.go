@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 
-	media "kiedit/media"
-	user "kiedit/user"
-	utils "kiedit/utils"
+	"kiedit/media"
+	"kiedit/user"
+	"kiedit/utils"
 )
 
 func main() {
