@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"io/ioutil"
 	"kiedit/media"
 	"kiedit/user"
@@ -14,18 +13,18 @@ type UploadHandler struct {
 }
 
 func (self *UploadHandler) Upload(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("File Upload Endpoint Hit")
+	log.Println("File Upload Endpoint Hit")
 
 	r.ParseMultipartForm(10 << 20)
 
 	currentUser.Init()
 
 	if err := uploadFile(w, r); err != nil {
-		fmt.Println("Error uploading file")
+		log.Println("Error uploading file")
 		log.Fatal(err)
 	}
 
-	fmt.Fprintf(w, "Successfully Uploaded File\n")
+	log.Println(w, "Successfully Uploaded File\n")
 }
 
 var currentUser = new(user.User)
@@ -49,21 +48,21 @@ func processFileUpload(w http.ResponseWriter, r *http.Request) (string, error) {
 
 	file, _, err := r.FormFile("file")
 	if err != nil {
-		fmt.Println("Error Retrieving the File")
+		log.Println("Error Retrieving the File")
 		return "", err
 	}
 	defer file.Close()
 
 	tempFile, err := ioutil.TempFile(uploadDir, "upload-*.mp4")
 	if err != nil {
-		fmt.Println("Error creating a temp File")
+		log.Println("Error creating a temp File")
 		return "", err
 	}
 	defer tempFile.Close()
 
 	fileBytes, err := ioutil.ReadAll(file)
 	if err != nil {
-		fmt.Println("Error reading uploaded file content")
+		log.Println("Error reading uploaded file content")
 		return "", err
 	}
 	tempFile.Write(fileBytes)
