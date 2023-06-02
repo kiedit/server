@@ -1,0 +1,40 @@
+version: '3.3'
+networks:
+  kieidit-network:
+    driver: bridge
+services:
+  rabbitmq:
+    hostname: my-rabbit
+    container_name: rabbitmq
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    image: 'rabbitmq:3-management'
+    networks:
+      - kieidit-network
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status"]
+      interval: 5s
+      timeout: 15s
+      retries: 5
+  server:
+    container_name: server
+    build: 
+      context: .
+      dockerfile: cmd/server/Dockerfile
+    ports:
+      - '8080:8080'
+    networks:
+      - kieidit-network
+    depends_on:
+      - rabbitmq
+  events:
+    container_name: events
+    build: 
+      context: .
+      dockerfile: cmd/events/Dockerfile
+    networks:
+      - kieidit-network
+    depends_on:
+      - rabbitmq
+    restart: on-failure

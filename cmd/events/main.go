@@ -11,10 +11,8 @@ func main() {
 		log.Fatal(err)
 	}
 	defer queue.Close()
-	log.Println("Successfully connected to RabbitMQ instance")
 
 	if err := queue.Consume(); err != nil {
 		log.Fatal(err)
 	}
-	log.Println("Successfully consumed RabbitMQ instance")
 }

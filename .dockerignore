@@ -1,0 +1,8 @@
+.DS_Store
+*.mp4
+*.html
+
+docker-compose.yml
+.gitignore
+.github
+.git
