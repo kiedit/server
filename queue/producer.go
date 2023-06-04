@@ -1,12 +1,13 @@
 package queue
 
 import (
+	"kiedit/media"
 	"log"
 
 	"github.com/streadway/amqp"
 )
 
-func (self *QueueStruct) Publish(data string) error {
+func (self *QueueStruct) Publish(splitVideoInput media.SplitVideoInput) error {
 	err := self.Channel.Publish(
 		"",       // exchange
 		"upload", // key
@@ -14,7 +15,7 @@ func (self *QueueStruct) Publish(data string) error {
 		false,    // immediate
 		amqp.Publishing{
 			ContentType: "text/plain",
-			Body:        []byte(data),
+			Body:        []byte(splitVideoInput.OutputDirPath),
 		},
 	)
 	if err != nil {

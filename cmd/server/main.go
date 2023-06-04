@@ -9,7 +9,7 @@ import (
 func setupRoutes() {
 	uploadHandler := new(handler.UploadHandler)
 
-	http.HandleFunc("/upload", uploadHandler.Upload)
+	http.HandleFunc("/upload", uploadHandler.UploadFile)
 	http.ListenAndServe(":8080", nil)
 }
 
