@@ -34,6 +34,12 @@ Install dependencies
   go mod download
 ```
 
+Start the rabbitmq instance
+
+```bash
+  docker run -d --hostname my-rabbit --name some-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+```
+
 Start the queue consumer
 
 ```bash
@@ -46,3 +52,4 @@ Start the server
   go run cmd/server/main.go
 ```
 
+Upload mp4 file via curl or rest api application such as postman
