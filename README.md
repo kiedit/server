@@ -8,7 +8,10 @@ Tired of dealing with the frustration of syncing audio and video when sharing lo
 
 ## Tech Stack
 
-**Server:** Golang, rabbitmq, docker, ffmpeg (install this on your machine)
+- Golang
+- rabbitmq
+- docker
+- ffmpeg (install on your machine)
 
 
 ## Run Locally
