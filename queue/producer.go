@@ -1,6 +1,7 @@
 package queue
 
 import (
+	"encoding/json"
 	"kiedit/media"
 	"log"
 
@@ -8,14 +9,21 @@ import (
 )
 
 func (self *QueueStruct) Publish(splitVideoInput media.SplitVideoInput) error {
-	err := self.Channel.Publish(
+	var body, err = json.Marshal(splitVideoInput)
+
+	if err != nil {
+		log.Println("Channel Publish Data error")
+		return err
+	}
+
+	err = self.Channel.Publish(
 		"",       // exchange
 		"upload", // key
 		false,    // mandatory
 		false,    // immediate
 		amqp.Publishing{
-			ContentType: "text/plain",
-			Body:        []byte(splitVideoInput.OutputDirPath),
+			ContentType: "application/json",
+			Body:        body,
 		},
 	)
 	if err != nil {
@@ -23,7 +31,6 @@ func (self *QueueStruct) Publish(splitVideoInput media.SplitVideoInput) error {
 		return err
 	}
 
-	log.Println("Queue status:", self.Queue)
 	log.Println("Successfully published message")
 	return nil
 }

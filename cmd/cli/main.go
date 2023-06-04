@@ -1,11 +1,10 @@
 package main
 
 import (
-	"log"
-
 	"kiedit/media"
 	"kiedit/user"
 	"kiedit/utils"
+	"log"
 )
 
 func main() {
