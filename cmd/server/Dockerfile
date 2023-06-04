@@ -2,7 +2,7 @@
 FROM golang:alpine AS build
 WORKDIR /build
 
-RUN mkdir -p /distcd
+RUN mkdir -p /dist
 
 COPY go.mod go.sum ./
 RUN go mod download

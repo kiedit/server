@@ -2,6 +2,7 @@ package queue
 
 import (
 	"log"
+	"os"
 
 	"github.com/streadway/amqp"
 )
@@ -13,7 +14,17 @@ type QueueStruct struct {
 }
 
 func (self *QueueStruct) Connect() error {
-	connection, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	var RABBITMQ_URL_HOST_FROM_ENV = os.Getenv("RABBITMQ_URL_HOST")
+
+	var RABBITMQ_URL_HOST = "localhost:5672/"
+
+	if len(RABBITMQ_URL_HOST_FROM_ENV) > 0 {
+		RABBITMQ_URL_HOST = RABBITMQ_URL_HOST_FROM_ENV
+	}
+
+	var RABBITMQ_URL = "amqp://guest:guest@" + RABBITMQ_URL_HOST
+
+	connection, err := amqp.Dial(RABBITMQ_URL)
 	if err != nil {
 		log.Println("Connection Dial error")
 		return err

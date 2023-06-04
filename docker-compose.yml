@@ -28,6 +28,9 @@ services:
       - kieidit-network
     depends_on:
       - rabbitmq
+    restart: on-failure
+    environment:
+      RABBITMQ_URL_HOST: 'rabbitmq:5672'
   events:
     container_name: events
     build: 
@@ -38,3 +41,5 @@ services:
     depends_on:
       - rabbitmq
     restart: on-failure
+    environment:
+      RABBITMQ_URL_HOST: 'rabbitmq:5672'
